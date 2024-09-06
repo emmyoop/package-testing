@@ -10,9 +10,8 @@ description: Get the list of supported adapters to test for the package
 
 outputs:
   adapters:
-    description: Supported adapters to test
+    description: Supported adapters to test as jsons
     value: ${{ steps.supported-adapters.outputs.adapters }}
-
 
 runs:
   using: "composite"
@@ -23,12 +22,12 @@ runs:
         with:
           # specifying the ref avoids checking out the repository in a detached state
           ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ inputs.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "Set up Python ${{ env.PYTHON_VERSION }}"
+      - name: "Set up Python 3.11"
         uses: actions/setup-python@v5
         with:
-            python-version: ${{ env.PYTHON_VERSION }}
+            python-version: "3.11"
 
       - name: "Install tox"
         shell: bash
@@ -36,18 +35,14 @@ runs:
             python -m pip install --upgrade pip
             pip install tox
 
-      - name: "Get list of supported adapters or use input adapter only"
+      - name: "Get list of supported adapters"
         id: list-adapters
         shell: bash
         run: |
-            if [ -z "${{ inputs.adapter }}" ]; then
-                # github adds a pip freeze and a new line we need to strip out
-                source supported_adapters.env
-                echo $SUPPORTED_ADAPTERS
-                echo "test_adapters=$SUPPORTED_ADAPTERS" >> $GITHUB_OUTPUT
-            else
-                echo "test_adapters=${{ inputs.adapter }}" >> $GITHUB_OUTPUT
-            fi
+            # github adds a pip freeze and a new line we need to strip out
+            source supported_adapters.env
+            echo $SUPPORTED_ADAPTERS
+            echo "test_adapters=$SUPPORTED_ADAPTERS" >> $GITHUB_OUTPUT
 
       - name: "Format adapter list for use as the matrix"
         id: supported-adapters
@@ -62,5 +57,5 @@ runs:
         shell: bash
         run: |
             title="${{ github.event.repository.name }} - adapters to test"
-            message="The workflow will run tests for the following adapters: ${{ steps.supported-adapters.outputs.adapters }}"
+            message="The package supports the following adapters: ${{ steps.supported-adapters.outputs.adapters }}"
             echo "::notice $title::$message"
