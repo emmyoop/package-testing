@@ -104,26 +104,26 @@ jobs:
               # Since GitHub just ignores and vars/secrets that are not set we can set everything
               # here and not worry about it
               env:
-                  POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
-                  POSTGRES_USER: ${{ vars.POSTGRES_USER }}
-                  DBT_ENV_SECRET_POSTGRES_PASS: ${{ secrets.POSTGRES_PASS }}
+                  POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+                  POSTGRES_USER: ${{ env.POSTGRES_USER }}
+                  DBT_ENV_SECRET_POSTGRES_PASS: ${{ secrets.DBT_ENV_SECRET_POSTGRES_PASSs }}
                   POSTGRES_PORT: 5432
-                  POSTGRES_DATABASE: ${{ vars.POSTGRES_DATABASE }}
-                  POSTGRES_SCHEMA: "dbt_utils_integration_tests_postgres_${{ github.run_number }}"
+                  POSTGRES_DATABASE: ${{ env.POSTGRES_DATABASE }}
+                  POSTGRES_SCHEMA: ${{ env.POSTGRES_SCHEMA }}
                   SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-                  SNOWFLAKE_USER: ${{ vars.SNOWFLAKE_USER }}
+                  SNOWFLAKE_USER: ${{ env.SNOWFLAKE_USER }}
                   DBT_ENV_SECRET_SNOWFLAKE_PASS: ${{ secrets.SNOWFLAKE_PASS }}
-                  SNOWFLAKE_ROLE: ${{ vars.SNOWFLAKE_ROLE }}
-                  SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
-                  SNOWFLAKE_WAREHOUSE: ${{ vars.SNOWFLAKE_WAREHOUSE }}
-                  SNOWFLAKE_SCHEMA: "dbt_utils_integration_tests_snowflake_${{ github.run_number }}"
-                  REDSHIFT_HOST: ${{ vars.REDSHIFT_HOST }}
-                  REDSHIFT_USER: ${{ vars.REDSHIFT_USER }}
+                  SNOWFLAKE_ROLE: ${{ env.SNOWFLAKE_ROLE }}
+                  SNOWFLAKE_DATABASE: ${{ env.SNOWFLAKE_DATABASE }}
+                  SNOWFLAKE_WAREHOUSE: ${{ env.SNOWFLAKE_WAREHOUSE }}
+                  SNOWFLAKE_SCHEMA: ${{ env.SNOWFLAKE_SCHEMA }}
+                  REDSHIFT_HOST: ${{ env.REDSHIFT_HOST }}
+                  REDSHIFT_USER: ${{ env.REDSHIFT_USER }}
                   DBT_ENV_SECRET_REDSHIFT_PASS: ${{ secrets.REDSHIFT_PASS }}
-                  REDSHIFT_DATABASE: ${{ vars.REDSHIFT_DATABASE }}
-                  REDSHIFT_SCHEMA: "dbt_utils_integration_tests_redshift_${{ github.run_number }}"
+                  REDSHIFT_DATABASE: ${{ env.REDSHIFT_DATABASE }}
+                  REDSHIFT_SCHEMA: ${{ env.REDSHIFT_SCHEMA }}
                   REDSHIFT_PORT: 5439
-                  BIGQUERY_PROJECT: ${{ vars.BIGQUERY_PROJECT }}
+                  BIGQUERY_PROJECT: ${{ env.BIGQUERY_PROJECT }}
                   BIGQUERY_KEYFILE_JSON: ${{ secrets.BIGQUERY_KEYFILE_JSON }}
-                  BIGQUERY_SCHEMA: "dbt_utils_integration_tests_bigquery_${{ github.run_number }}"
+                  BIGQUERY_SCHEMA: ${{ env.BIGQUERY_SCHEMA }}
                 #   TODO: add the rests
