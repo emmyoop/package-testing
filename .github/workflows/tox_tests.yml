@@ -37,10 +37,10 @@ on:
                 required: false
                 type: string
                 default: "postgres_test"
-        # secrets:
-        #     DBT_ENV_SECRET_POSTGRES_PASS:
-        #         description: "The password"
-        #         required: false
+            DBT_ENV_SECRET_POSTGRES_PASS:
+                description: "The password that isn't secret"
+                type: string
+                default: "postgres_test"
 
 env:
     PYTHON_VERSION: "3.11"
@@ -94,7 +94,7 @@ jobs:
                 image: postgres
                 env:
                     POSTGRES_USER: ${{ env.POSTGRES_USER }}
-                    POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASS }}
+                    POSTGRES_PASSWORD: ${{ secrets.DBT_ENV_SECRET_POSTGRES_PASS }}
                     POSTGRES_DB: ${{ env.POSTGRES_DATABASE }}
                     POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
                 options: >-
@@ -134,26 +134,26 @@ jobs:
               # Since GitHub just ignores and vars/secrets that are not set we can set everything
               # here and not worry about it
               env:
-                  POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
-                  POSTGRES_USER: ${{ env.POSTGRES_USER }}
-                  DBT_ENV_SECRET_POSTGRES_PASS: ${{ secrets.DBT_ENV_SECRET_POSTGRES_PASS }}
-                  POSTGRES_PORT: 5432
-                  POSTGRES_DATABASE: ${{ env.POSTGRES_DATABASE }}
-                  POSTGRES_SCHEMA: ${{ env.POSTGRES_SCHEMA }}
-                  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-                  SNOWFLAKE_USER: ${{ env.SNOWFLAKE_USER }}
-                  DBT_ENV_SECRET_SNOWFLAKE_PASS: ${{ secrets.SNOWFLAKE_PASS }}
-                  SNOWFLAKE_ROLE: ${{ env.SNOWFLAKE_ROLE }}
-                  SNOWFLAKE_DATABASE: ${{ env.SNOWFLAKE_DATABASE }}
-                  SNOWFLAKE_WAREHOUSE: ${{ env.SNOWFLAKE_WAREHOUSE }}
-                  SNOWFLAKE_SCHEMA: ${{ env.SNOWFLAKE_SCHEMA }}
-                  REDSHIFT_HOST: ${{ env.REDSHIFT_HOST }}
-                  REDSHIFT_USER: ${{ env.REDSHIFT_USER }}
-                  DBT_ENV_SECRET_REDSHIFT_PASS: ${{ secrets.REDSHIFT_PASS }}
-                  REDSHIFT_DATABASE: ${{ env.REDSHIFT_DATABASE }}
-                  REDSHIFT_SCHEMA: ${{ env.REDSHIFT_SCHEMA }}
-                  REDSHIFT_PORT: 5439
-                  BIGQUERY_PROJECT: ${{ env.BIGQUERY_PROJECT }}
-                  BIGQUERY_KEYFILE_JSON: ${{ secrets.BIGQUERY_KEYFILE_JSON }}
-                  BIGQUERY_SCHEMA: ${{ env.BIGQUERY_SCHEMA }}
+                  POSTGRES_HOST: ${{ inputs.POSTGRES_HOST }}
+                  POSTGRES_USER: ${{ inputs.POSTGRES_USER }}
+                  DBT_ENV_SECRET_POSTGRES_PASS: ${{ inputs.DBT_ENV_SECRET_POSTGRES_PASS }}
+                  POSTGRES_PORT: ${{ inputs.POSTGRES_PORT }}
+                  POSTGRES_DATABASE: ${{ inputs.POSTGRES_DATABASE }}
+                  POSTGRES_SCHEMA: ${{ inputs.POSTGRES_SCHEMA }}
+                #   SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+                #   SNOWFLAKE_USER: ${{ inputs.SNOWFLAKE_USER }}
+                #   DBT_ENV_SECRET_SNOWFLAKE_PASS: ${{ secrets.SNOWFLAKE_PASS }}
+                #   SNOWFLAKE_ROLE: ${{ inputs.SNOWFLAKE_ROLE }}
+                #   SNOWFLAKE_DATABASE: ${{ inputs.SNOWFLAKE_DATABASE }}
+                #   SNOWFLAKE_WAREHOUSE: ${{ inputs.SNOWFLAKE_WAREHOUSE }}
+                #   SNOWFLAKE_SCHEMA: ${{ inputs.SNOWFLAKE_SCHEMA }}
+                #   REDSHIFT_HOST: ${{ inputs.REDSHIFT_HOST }}
+                #   REDSHIFT_USER: ${{ inputs.REDSHIFT_USER }}
+                #   DBT_ENV_SECRET_REDSHIFT_PASS: ${{ secrets.REDSHIFT_PASS }}
+                #   REDSHIFT_DATABASE: ${{ inputs.REDSHIFT_DATABASE }}
+                #   REDSHIFT_SCHEMA: ${{ inputs.REDSHIFT_SCHEMA }}
+                #   REDSHIFT_PORT: ${{ inputs.REDSHIFT_PORT }}
+                #   BIGQUERY_PROJECT: ${{ inputs.BIGQUERY_PROJECT }}
+                #   BIGQUERY_KEYFILE_JSON: ${{ secrets.BIGQUERY_KEYFILE_JSON }}
+                #   BIGQUERY_SCHEMA: ${{ inputs.BIGQUERY_SCHEMA }}
                 #   TODO: add the rests
