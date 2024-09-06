@@ -93,10 +93,10 @@ jobs:
             postgres:
                 image: postgres
                 env:
-                    POSTGRES_USER: ${{ env.POSTGRES_USER }}
-                    POSTGRES_PASSWORD: ${{ secrets.DBT_ENV_SECRET_POSTGRES_PASS }}
-                    POSTGRES_DB: ${{ env.POSTGRES_DATABASE }}
-                    POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+                    POSTGRES_USER: ${{ inputs.POSTGRES_USER }}
+                    POSTGRES_PASSWORD: ${{ inputs.DBT_ENV_SECRET_POSTGRES_PASS }}
+                    POSTGRES_DB: ${{ inputs.POSTGRES_DATABASE }}
+                    POSTGRES_HOST: ${{ inputs.POSTGRES_HOST }}
                 options: >-
                     --health-cmd pg_isready
                     --health-interval 10s
