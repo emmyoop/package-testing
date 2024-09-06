@@ -1,0 +1,31 @@
+# **what?**
+# This action is used to test the package with different adapters.
+#
+# **why?**
+# To ensure that the package works with different adapters.  It also ensure
+# the testing framework is set up in a way that will work with dbt Cloud testing.s
+
+
+name: Test Adapters
+description: Determine supported adapters and run tox tests
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Determine supported adapters"
+      id: determine-adapters
+      uses: ./determine_adapters/action.yml
+      with:
+        GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
+
+    - name: "Run tox tests for each adapter"
+      uses: ./run_tox_tests/action.yml
+      with:
+        adapters: ${{ steps.determine-adapters.outputs.adapters }}
+        PYTHON_VERSION: ${{ env.PYTHON_VERSION }}
+        POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+        POSTGRES_USER: ${{ env.POSTGRES_USER }}
+        DBT_ENV_SECRET_POSTGRES_PASS: ${{ env.DBT_ENV_SECRET_POSTGRES_PASS }}
+        POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+        POSTGRES_DATABASE: ${{ env.POSTGRES_DATABASE }}
+        POSTGRES_SCHEMA: ${{ env.POSTGRES_SCHEMA }}

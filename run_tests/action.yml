@@ -1,0 +1,50 @@
+# **what?**
+# Run tests for the package using the supported adapters
+#
+# **why?**
+# To standardize the list of supported adapters across workflows
+
+
+name: Run Package Integration Tests
+description: Run integration tests for the package using the supported adapters
+
+inputs:
+  adapter:
+    description: 'Adapters to test'
+    required: true
+outputs:
+  adapters:
+    description: Supported adapters to test
+    value: ${{ steps.supported-adapters.outputs.adapters }}
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Set up Python ${{ inputs.PYTHON_VERSION }}"
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.PYTHON_VERSION }}
+
+    - name: "Install tox"
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox
+
+    - name: "Run integration tests"
+      shell: bash
+      run: |
+        adapters=(${{ inputs.adapters }})
+        for adapter in "${adapters[@]}"; do
+          echo "Testing adapter: $adapter"
+          pip install dbt-$adapter
+          tox -e dbt_integration_$adapter
+        done
+      env:
+        POSTGRES_HOST: ${{ inputs.POSTGRES_HOST }}
+        POSTGRES_USER: ${{ inputs.POSTGRES_USER }}
+        DBT_ENV_SECRET_POSTGRES_PASS: ${{ inputs.DBT_ENV_SECRET_POSTGRES_PASS }}
+        POSTGRES_PORT: ${{ inputs.POSTGRES_PORT }}
+        POSTGRES_DATABASE: ${{ inputs.POSTGRES_DATABASE }}
+        POSTGRES_SCHEMA: ${{ inputs.POSTGRES_SCHEMA }}
