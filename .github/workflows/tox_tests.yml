@@ -11,6 +11,36 @@ name: Package Integration Tests
 
 on:
     workflow_call:
+        inputs:
+            POSTGRES_SCHEMA:
+                description: "The schema to use for the tests"
+                required: false
+                type: string
+                default: "integration_tests_postgres_${{ github.run_number }}"
+            POSTGRES_HOST:
+                description: "The host"
+                required: false
+                type: string
+                default: "localhost"
+            POSTGRES_USER:
+                description: "The user"
+                required: false
+                type: string
+                default: "root"
+            POSTGRES_PORT:
+                description: "The port"
+                required: false
+                type: string
+                default: "5432"
+            POSTGRES_DATABASE:
+                description: "The database"
+                required: false
+                type: string
+                default: "postgres_test"
+        # secrets:
+        #     DBT_ENV_SECRET_POSTGRES_PASS:
+        #         description: "The password"
+        #         required: false
 
 env:
     PYTHON_VERSION: "3.11"
