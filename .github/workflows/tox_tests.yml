@@ -106,7 +106,7 @@ jobs:
               env:
                   POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
                   POSTGRES_USER: ${{ env.POSTGRES_USER }}
-                  DBT_ENV_SECRET_POSTGRES_PASS: ${{ secrets.DBT_ENV_SECRET_POSTGRES_PASSs }}
+                  DBT_ENV_SECRET_POSTGRES_PASS: ${{ secrets.DBT_ENV_SECRET_POSTGRES_PASS }}
                   POSTGRES_PORT: 5432
                   POSTGRES_DATABASE: ${{ env.POSTGRES_DATABASE }}
                   POSTGRES_SCHEMA: ${{ env.POSTGRES_SCHEMA }}
